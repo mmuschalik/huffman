@@ -3,51 +3,42 @@ import zio._
 import zio.console._
 import Tree._
 import scala.collection.immutable.SortedSet
+import java.io.FileOutputStream
+import java.io.File
 
-object Main {
+object MyApp extends App {
 
-  def main(args: Array[String]): Unit = {
-    
-    val runtime = Runtime.default
+  def run(args: List[String]) =
+    myApp.fold(x => ExitCode.failure, _ => ExitCode.success)
+
+  def myApp = {
 
     val myText = Stream.fromIterable("A_DEAD_DAD_CEDED_A_BAD_BABE_A__".toArray)
 
-    val eff = 
-      for 
-        stats <- myText.groupByKey(c => c) {
-                    case (k, s) => ZStream.fromEffect(s.runCount.map(c => Leaf(k, c.toInt)))
-                  }.runCollect
-        _     <- putStrLn(stats.mkString(","))
-      yield stats
+    val os = new FileOutputStream(new File("test.dat"))
 
-    runtime.unsafeRun(eff)
-
-
-    val sortedSet = SortedSet[Tree](Leaf('C', 2), Leaf('B', 6), Leaf('E', 7), Leaf('_', 10), Leaf('D', 10), Leaf('A', 11))(Ordering.by[Tree,Int](_.count).orElseBy(_.name))
-  
-    val tree = buildHuffmanTree(sortedSet).get
-
-
-    val myLookup: Map[Char, String] = tree.getMap
-    
-    // maybe flatmap and add the offset as final char
-    // when decrypting, take at least 8 chars, then work out what to drop
-
-    val compressed = compressStream(myText, myLookup)
-
-    val uncompressed = unCompressStream(compressed, tree)
-    
-    
-
-    runtime.unsafeRun(
-      uncompressed.foreach(r => Task(println(r)))
-    )
-
-    
-
+    for
+      stats      <- getStats(myText)
+      tree       <- ZIO.fromOption(statsToTree(stats))
+      totalBytes  = tree.count
+      _          <- putStrLn("Total bytes read: " + totalBytes.toString)
+      _          <- putStrLn(tree.getMap.toString)
+      compress    = compressStream(myText, tree.getMap)
+      content     = contentLengthStream(totalBytes) ++ compress
+      _          <- content.run(ZSink.fromOutputStream(os))
+    yield ()
   }
-
+    
 }
+
+def getStats(stream: Stream[Nothing, Char]) =
+  stream.groupByKey(c => c) { case (k, s) => ZStream.fromEffect(s.runCount.map(c => (k, c))) }.runCollect
+
+def statsToSeed(stats: Chunk[(Char,Long)]): SortedSet[Tree] =
+  SortedSet[Tree](stats.map(p => Leaf(p._1, p._2)): _*)(Ordering.by[Tree,Long](_.count).orElseBy(_.name))
+
+def statsToTree(stats: Chunk[(Char,Long)]): Option[Tree] =
+  buildHuffmanTree(statsToSeed(stats))
 
 def compressStream(incoming: Stream[Nothing, Char], myLookup: Map[Char, String]): Stream[String, Byte] =
   incoming
@@ -65,3 +56,6 @@ def bitStringToByte(str: List[Char]): Byte =
 
 def byteToBitString(byte: Byte): String = 
   String.format("%8s", Integer.toBinaryString(byte & 0xFF)).replace(' ', '0')
+
+def contentLengthStream(long: Long): Stream[Nothing, Byte] = 
+  Stream.fromIterable(BigInt(long).toByteArray.reverse.padTo(8, 0x00.toByte).reverse)

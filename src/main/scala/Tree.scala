@@ -2,10 +2,10 @@ import scala.collection.immutable.SortedSet
 
 enum Tree {
 
-  case Leaf(char: Char, cnt: Int)
-  case Branch(zero: Tree, one: Tree, cnt: Int)
+  case Leaf(char: Char, cnt: Long)
+  case Branch(zero: Tree, one: Tree, cnt: Long)
 
-  def count: Int = this
+  def count: Long = this
     match
       case Leaf(_, c) => c
       case Branch(_, _, c) => c
@@ -35,21 +35,17 @@ enum Tree {
         else 
           a
   
-  def depth: Int = this
-    match
-      case l: Leaf => 0
-      case Branch(a, b, _) => scala.math.max(a.depth + 1, b.depth + 1)
 }
 
 object Tree {
 
   def buildHuffmanTree(sortedSet: SortedSet[Tree]): Option[Tree] = 
-  if sortedSet.isEmpty then
-    None
-  else if sortedSet.size == 1 then
-    Some(sortedSet.head)
-  else
-    val (two, rest) = sortedSet.splitAt(2)
-    buildHuffmanTree(rest + two.reduce(_.merge(_)))
+    if sortedSet.isEmpty then
+      None
+    else if sortedSet.size == 1 then
+      Some(sortedSet.head)
+    else
+      val (two, rest) = sortedSet.splitAt(2)
+      buildHuffmanTree(rest + two.reduce(_.merge(_)))
 
 }
