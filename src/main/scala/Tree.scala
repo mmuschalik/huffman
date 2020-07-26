@@ -48,4 +48,9 @@ object Tree {
       val (two, rest) = sortedSet.splitAt(2)
       buildHuffmanTree(rest + two.reduce(_.merge(_)))
 
+  def show(tree: Tree): String = tree
+    match
+      case Leaf(c, _) => "'" + c.toString
+      case Branch(zero, one, _) => "|" + show(zero) + show(one)
+
 }
