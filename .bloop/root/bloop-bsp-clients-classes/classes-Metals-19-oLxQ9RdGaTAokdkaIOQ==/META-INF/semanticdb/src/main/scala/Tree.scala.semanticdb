@@ -1,0 +1,162 @@
+
+†-src/main/scala/Tree.scala*
+_empty_/Tree# îÄ*TreeÄ**
+_empty_/Tree#`<init>`(). Ä@*<init>Ä*#
+_empty_/Tree#count().*countÄ*
+local0 Ä*cÄ*
+local1 Ä*cÄ*!
+_empty_/Tree#name().*nameÄ*
+local2 Ä*cÄ*
+local3 Ä*aÄ*
+local4 Ä*bÄ*%
+_empty_/Tree#getMap().*getMapÄ*'
+_empty_/Tree#getMap(+1).*getMapÄ*5
+#_empty_/Tree#getMap(+1).(traversal)*	traversalÄ*
+local5 Ä*cÄ*
+local6 Ä*zeroÄ*
+local7 Ä*oneÄ*#
+_empty_/Tree#merge().*mergeÄ**
+_empty_/Tree#merge().(other)*otherÄ*
+_empty_/Tree.
+ *TreeÄ*#
+_empty_/Tree.Leaf# àÅ*LeafÄ*/
+_empty_/Tree.Leaf#`<init>`(). Ä@*<init>Ä*3
+#_empty_/Tree.Leaf#`<init>`().(char) Ä*charÄ*1
+"_empty_/Tree.Leaf#`<init>`().(cnt) Ä*cntÄ*'
+_empty_/Tree.Leaf#char. Ä*charÄ*%
+_empty_/Tree.Leaf#cnt. Ä*cntÄ*&
+_empty_/Tree.Leaf#copy().*copyÄ*,
+_empty_/Tree.Leaf#copy().(char)*charÄ**
+_empty_/Tree.Leaf#copy().(cnt)*cntÄ*:
+#_empty_/Tree.Leaf#copy$default$1().*copy$default$1Ä*:
+#_empty_/Tree.Leaf#copy$default$2().*copy$default$2Ä*.
+_empty_/Tree.Leaf#$ordinal().*$ordinalÄ*"
+_empty_/Tree.Leaf#_1().*_1Ä*"
+_empty_/Tree.Leaf#_2().*_2Ä*!
+_empty_/Tree.Leaf.
+ *LeafÄ*(
+_empty_/Tree.Leaf.apply().*applyÄ*-
+ _empty_/Tree.Leaf.apply().(char)*charÄ*+
+_empty_/Tree.Leaf.apply().(cnt)*cntÄ*,
+_empty_/Tree.Leaf.unapply().*unapplyÄ*-
+!_empty_/Tree.Leaf.unapply().(x$1)*x$1Ä*'
+_empty_/Tree.Branch# àÅ*BranchÄ*1
+_empty_/Tree.Branch#`<init>`(). Ä@*<init>Ä*5
+%_empty_/Tree.Branch#`<init>`().(zero) Ä*zeroÄ*3
+$_empty_/Tree.Branch#`<init>`().(one) Ä*oneÄ*3
+$_empty_/Tree.Branch#`<init>`().(cnt) Ä*cntÄ*)
+_empty_/Tree.Branch#zero. Ä*zeroÄ*'
+_empty_/Tree.Branch#one. Ä*oneÄ*'
+_empty_/Tree.Branch#cnt. Ä*cntÄ*(
+_empty_/Tree.Branch#copy().*copyÄ*.
+!_empty_/Tree.Branch#copy().(zero)*zeroÄ*,
+ _empty_/Tree.Branch#copy().(one)*oneÄ*,
+ _empty_/Tree.Branch#copy().(cnt)*cntÄ*<
+%_empty_/Tree.Branch#copy$default$1().*copy$default$1Ä*<
+%_empty_/Tree.Branch#copy$default$2().*copy$default$2Ä*<
+%_empty_/Tree.Branch#copy$default$3().*copy$default$3Ä*0
+_empty_/Tree.Branch#$ordinal().*$ordinalÄ*$
+_empty_/Tree.Branch#_1().*_1Ä*$
+_empty_/Tree.Branch#_2().*_2Ä*$
+_empty_/Tree.Branch#_3().*_3Ä*%
+_empty_/Tree.Branch.
+ *BranchÄ**
+_empty_/Tree.Branch.apply().*applyÄ*/
+"_empty_/Tree.Branch.apply().(zero)*zeroÄ*-
+!_empty_/Tree.Branch.apply().(one)*oneÄ*-
+!_empty_/Tree.Branch.apply().(cnt)*cntÄ*.
+_empty_/Tree.Branch.unapply().*unapplyÄ*/
+#_empty_/Tree.Branch.unapply().(x$1)*x$1Ä2
+ 	_empty_/Tree#2&
+ _empty_/Tree#`<init>`().2#
+ _empty_/Tree#count().2
+ 
+scala/Int#2*
+ _empty_/Tree.Leaf.unapply().2 
+ _empty_/Tree.Leaf.2
+ local02
+ local02,
+ _empty_/Tree.Branch.unapply().2"
+ _empty_/Tree.Branch.2
+ local12
+ local12"
+ 
+_empty_/Tree#name().2"
+ scala/Predef.String#2*
+ _empty_/Tree.Leaf.unapply().2 
+ _empty_/Tree.Leaf.2
+ local22#
+ #scala/Any#toString().2
+ local22,
+ _empty_/Tree.Branch.unapply().2"
+ _empty_/Tree.Branch.2
+ local32
+ local42%
+% &java/lang/String#`+`().2"
+  $_empty_/Tree#name().2
+ local32"
+) -_empty_/Tree#name().2
+' (local42$
+ _empty_/Tree#getMap().2
+ scala/Predef.Map#2
+ scala/Char#2"
+ scala/Predef.String#2&
+" (_empty_/Tree#getMap(+1).2&
+ _empty_/Tree#getMap(+1).21
+ #_empty_/Tree#getMap(+1).(traversal)2"
+  &scala/Predef.String#2
+) ,scala/Predef.Map#2
+- 1scala/Char#2"
+3 9scala/Predef.String#2*
+ _empty_/Tree.Leaf.unapply().2 
+ _empty_/Tree.Leaf.2
+ local522
+ $scala/collection/MapFactory#apply().2
+ scala/Predef.Map.2-
+ !scala/Predef.ArrowAssoc#`->`().2(
+ scala/Predef.ArrowAssoc().2
+ local521
+" +#_empty_/Tree#getMap(+1).(traversal)2,
+ _empty_/Tree.Branch.unapply().2"
+ _empty_/Tree.Branch.2
+ local62
+ local72-
+@ Bscala/collection/MapOps#`++`().2&
+( ._empty_/Tree#getMap(+1).2
+# 'local62%
+9 :java/lang/String#`+`().21
+/ 8#_empty_/Tree#getMap(+1).(traversal)2&
+G M_empty_/Tree#getMap(+1).2
+C Flocal72%
+X Yjava/lang/String#`+`().21
+N W#_empty_/Tree#getMap(+1).(traversal)2#
+ _empty_/Tree#merge().2*
+ _empty_/Tree#merge().(other)2
+ _empty_/Tree#2
+ _empty_/Tree#2*
+
+ 
+_empty_/Tree.Branch.apply().2"
+ 
+_empty_/Tree.Branch.2*
+ _empty_/Tree#merge().(other)2 
+# $scala/Int#`+`(+4).2#
+ "_empty_/Tree#count().2#
++ 0_empty_/Tree#count().2*
+% *_empty_/Tree#merge().(other)2 
+ _empty_/Tree.Leaf#2+
+ !_empty_/Tree.Leaf#`<init>`().2
+ scala/Char#2
+  
+scala/Int#2%
+ _empty_/Tree.Leaf#char.2$
+ _empty_/Tree.Leaf#cnt.2"
+ _empty_/Tree.Branch#2-
+ ._empty_/Tree.Branch#`<init>`().2
+ _empty_/Tree#2
+ #_empty_/Tree#2
+* -
+scala/Int#2'
+ _empty_/Tree.Branch#zero.2&
+ _empty_/Tree.Branch#one.2&
+% (_empty_/Tree.Branch#cnt.PZ 97ABCF619FB688689FFACB350404BABA

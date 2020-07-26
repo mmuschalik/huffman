@@ -1,0 +1,29 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/maurice/repo/huffman/target/scala-0.26/dotty-cross_0.26-0.1.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree$Branch.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree$Branch.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree$Leaf$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree$Leaf$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree$Leaf.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree$Leaf.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Main$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Main$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Main$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Tree$Branch$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Tree$Branch$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/maurice/repo/huffman/target/scala-0.26/classes/Main.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
