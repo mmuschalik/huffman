@@ -1,12 +1,27 @@
 import zio.stream._
 import zio._
+import zio.console._
 import Tree._
 import scala.collection.immutable.SortedSet
+
 object Main {
 
   def main(args: Array[String]): Unit = {
+    
+    val runtime = Runtime.default
 
     val myText = Stream.fromIterable("A_DEAD_DAD_CEDED_A_BAD_BABE_A__".toArray)
+
+    val eff = 
+      for 
+        stats <- myText.groupByKey(c => c) {
+                    case (k, s) => ZStream.fromEffect(s.runCount.map(c => Leaf(k, c.toInt)))
+                  }.runCollect
+        _     <- putStrLn(stats.mkString(","))
+      yield stats
+
+    runtime.unsafeRun(eff)
+
 
     val sortedSet = SortedSet[Tree](Leaf('C', 2), Leaf('B', 6), Leaf('E', 7), Leaf('_', 10), Leaf('D', 10), Leaf('A', 11))(Ordering.by[Tree,Int](_.count).orElseBy(_.name))
   
@@ -22,7 +37,7 @@ object Main {
 
     val uncompressed = unCompressStream(compressed, tree)
     
-    val runtime = Runtime.default
+    
 
     runtime.unsafeRun(
       uncompressed.foreach(r => Task(println(r)))

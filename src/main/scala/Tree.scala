@@ -34,6 +34,11 @@ enum Tree {
           b
         else 
           a
+  
+  def depth: Int = this
+    match
+      case l: Leaf => 0
+      case Branch(a, b, _) => scala.math.max(a.depth + 1, b.depth + 1)
 }
 
 object Tree {
