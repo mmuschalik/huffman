@@ -11,8 +11,8 @@ object MyApp extends App {
 
   def myApp = {
 
-    val inputFile = Managed.make(IO.effect(new FileInputStream("sample.txt")))(os => IO.effectTotal(os.close()))
-    val outputFile = Managed.make(IO.effect(new FileOutputStream("compressed.dat")))(os => IO.effectTotal(os.close()))
+    val inputFile = Managed.make(Task(new FileInputStream("sample.txt")))(os => UIO(os.close()))
+    val outputFile = Managed.make(Task(new FileOutputStream("compressed.dat")))(os => UIO(os.close()))
 
     val resources =
       for
@@ -20,12 +20,10 @@ object MyApp extends App {
         o <- outputFile
       yield (i, o)
 
-    val treeIO = buildTreeFromFile(inputFile)
-
-    treeIO.flatMap(tree =>
-      resources.use { case (inputStream, outputStream) =>
-        getContentStream(inputStream, tree).run(ZSink.fromOutputStream(outputStream)) 
-      }
-    )
+    for
+      tree <- buildTreeFromFile(inputFile)
+      _    <- resources.use { case (inputStream, outputStream) =>
+                getContentStream(inputStream, tree).run(ZSink.fromOutputStream(outputStream)) }
+    yield ()
   }
 }
