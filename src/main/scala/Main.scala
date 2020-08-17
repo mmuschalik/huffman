@@ -22,7 +22,7 @@ object MyApp extends App {
 
     for
       tree <- buildTreeFromFile(inputFile)
-      _    <- resources.use { case (inputStream, outputStream) =>
+      _    <- resources.use { case (inputStream, outputStream) => 
                 getContentStream(inputStream, tree).run(ZSink.fromOutputStream(outputStream)) }
     yield ()
   }

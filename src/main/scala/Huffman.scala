@@ -8,10 +8,19 @@ import java.io.{File,IOException}
 import scala.collection.immutable.SortedSet
 
 def getContentStream(inputStream: FileInputStream, tree: Tree) =
-  val header = Stream.fromIterable(Tree.show(tree).getBytes)
+  val treeString = Tree.show(tree)
+  val headerSize =  Stream.fromIterable(BigInt(treeString.length).toByteArray.reverse.padTo(4, 0x00.toByte).reverse)
+  val header = Stream.fromIterable(treeString.getBytes)
   val body = compressStream(ZStream.fromInputStream(inputStream).map(_.toChar), tree.getMap)
 
-  header ++ body
+  headerSize ++ header ++ body
+
+def readHeader(stream: ZStream[Blocking, IOException, Byte]) =
+  for
+    headerSize <- stream.peel(ZSink.take(4))
+    header <- headerSize._2.peel(ZSink.take(BigInt(headerSize._1.toArray).toInt))
+    //_ <-  headerSize._2.peel(ZSink.head)
+  yield header._2
 
 def buildTreeFromFile(inputFile: ZManaged[Any, Throwable, FileInputStream]) =
   for
@@ -42,7 +51,7 @@ def unCompressStream(incoming: Stream[String, Byte], tree: Tree): Stream[String,
     .flatMap(b => Stream.fromIterable(byteToBitString(b)))
     .aggregate(ZTransducer.fold(tree)(t => !t.isInstanceOf[Leaf])((t,b) => t.get(b)))
 
-def bitStringToByte(str: List[Char]): Byte = 
+def bitStringToByte(str: Chunk[Char]): Byte = 
   Integer.parseInt(str.mkString.padTo(8, '0'), 2).toByte
 
 def byteToBitString(byte: Byte): String = 
