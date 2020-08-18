@@ -15,12 +15,13 @@ def getContentStream(inputStream: FileInputStream, tree: Tree) =
 
   headerSize ++ header ++ body
 
-def readHeader(stream: ZStream[Blocking, IOException, Byte]) =
+def getTreeStream[R, E](stream: ZStream[R , E, Byte]) =
   for
     headerSize <- stream.peel(ZSink.take(4))
-    header <- headerSize._2.peel(ZSink.take(BigInt(headerSize._1.toArray).toInt))
-    //_ <-  headerSize._2.peel(ZSink.head)
-  yield header._2
+    header     <- headerSize._2.peel(ZSink.take(BigInt(headerSize._1.toArray).toInt))
+    treeEither  = TreeParser(header._1.map(_.toChar).mkString)
+    treeStream  = treeEither.fold(f => Stream.fail(f), t => unCompressStream(header._2, t))
+  yield treeStream
 
 def buildTreeFromFile(inputFile: ZManaged[Any, Throwable, FileInputStream]) =
   for
@@ -31,7 +32,7 @@ def buildTreeFromFile(inputFile: ZManaged[Any, Throwable, FileInputStream]) =
     _          <- putStrLn(tree.getMap.toString)
   yield (tree)
 
-def getStats(stream: ZStream[Blocking, IOException, Char]) =
+def getStats[R, E, O](stream: ZStream[R, E, O]) =
   stream.groupByKey(c => c) { case (k, s) => ZStream.fromEffect(s.runCount.map(c => (k, c))) }.runCollect
 
 def statsToSeed(stats: Chunk[(Char,Long)]): SortedSet[Tree] =
@@ -40,13 +41,13 @@ def statsToSeed(stats: Chunk[(Char,Long)]): SortedSet[Tree] =
 def statsToTree(stats: Chunk[(Char,Long)]): Option[Tree] =
   buildHuffmanTree(statsToSeed(stats))
 
-def compressStream(incoming: ZStream[Blocking, IOException, Char], myLookup: Map[Char, String]): ZStream[Blocking, IOException, Byte] =
+def compressStream[R](incoming: ZStream[R, IOException, Char], myLookup: Map[Char, String]): ZStream[R, IOException, Byte] =
   incoming
     .flatMap(c => myLookup.get(c).map(Stream.fromIterable).getOrElse(Stream.fail(IOException("Incompatible Huffman Tree"))))
     .grouped(8)
     .map(bitStringToByte)
 
-def unCompressStream(incoming: Stream[String, Byte], tree: Tree): Stream[String, Tree] =
+def unCompressStream[R, E](incoming: ZStream[R, E, Byte], tree: Tree): ZStream[R, E, Tree] =
   incoming
     .flatMap(b => Stream.fromIterable(byteToBitString(b)))
     .aggregate(ZTransducer.fold(tree)(t => !t.isInstanceOf[Leaf])((t,b) => t.get(b)))

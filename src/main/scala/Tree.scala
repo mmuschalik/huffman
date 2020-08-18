@@ -1,4 +1,5 @@
 import scala.collection.immutable.SortedSet
+import scala.util.parsing.combinator._
 
 enum Tree {
 
@@ -54,3 +55,22 @@ object Tree {
       case Branch(zero, one, _) => "|" + show(zero) + show(one)
 
 }
+
+object TreeParser extends RegexParsers {
+
+  val letter = regex(".".r)
+
+  def leaf: Parser[Tree] =  literal("'") ~ letter ^^ { case _ ~ s => Tree.Leaf(s.head, 0) }
+  def branch: Parser[Tree] = literal("|") ~ tree ~ tree ^^ { case _ ~ left ~ right => Tree.Branch(left, right, 0) }
+
+  def tree: Parser[Tree] = leaf | branch
+
+  def apply(str: String) = parse(tree, str)
+    match
+      case Success(t, _) => Right(t)
+      case Failure(f, _) => Left(ParseException(f))
+      case Error(e, _) => Left(ParseException(e))
+
+}
+
+case class ParseException(msg: String) extends Exception

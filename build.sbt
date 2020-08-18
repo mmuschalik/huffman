@@ -14,6 +14,8 @@ lazy val root = project
 
     libraryDependencies += "dev.zio" % "zio-streams_2.13" % "1.0.0",
 
+    libraryDependencies += "org.scala-lang.modules" % "scala-parser-combinators_2.13" % "1.1.2",
+
     // To make the default compiler and REPL use Dotty
     scalaVersion := dottyVersion,
 
