@@ -47,10 +47,11 @@ def compressStream[R](incoming: ZStream[R, IOException, Char], myLookup: Map[Cha
     .grouped(8)
     .map(bitStringToByte)
 
-def unCompressStream[R, E](incoming: ZStream[R, E, Byte], tree: Tree): ZStream[R, E, Tree] =
+def unCompressStream[R, E](incoming: ZStream[R, E, Byte], tree: Tree): ZStream[R, E, Byte] =
   incoming
     .flatMap(b => Stream.fromIterable(byteToBitString(b)))
     .aggregate(ZTransducer.fold(tree)(t => !t.isInstanceOf[Leaf])((t,b) => t.get(b)))
+    .map(_.name.head.toByte)
 
 def bitStringToByte(str: Chunk[Char]): Byte = 
   Integer.parseInt(str.mkString.padTo(8, '0'), 2).toByte

@@ -3,13 +3,16 @@ import zio._
 import zio.console._
 import zio.blocking.Blocking
 import java.io.{FileInputStream,FileOutputStream}
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 object MyApp extends App {
 
   def run(args: List[String]) =
-    myApp.fold(x => ExitCode.failure, _ => ExitCode.success)
+    //compress.fold(x => ExitCode.failure, _ => ExitCode.success)
+    decompress.fold(x => ExitCode.failure, _ => ExitCode.success)
 
-  def myApp = {
+  def compress = {
 
     val inputFile = Managed.make(Task(new FileInputStream("sample.txt")))(os => UIO(os.close()))
     val outputFile = Managed.make(Task(new FileOutputStream("compressed.dat")))(os => UIO(os.close()))
@@ -26,4 +29,9 @@ object MyApp extends App {
                 getContentStream(inputStream, tree).run(ZSink.fromOutputStream(outputStream)) }
     yield ()
   }
+
+  def decompress = getTreeStream(ZStream.fromFile(Paths.get("compressed.dat"))).use { 
+    case stream => stream.run(ZSink.fromFile(Paths.get("sample2.txt")))
+  }
+  
 }
