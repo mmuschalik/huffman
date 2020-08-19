@@ -1,6 +1,7 @@
 import scala.collection.immutable.SortedSet
 import scala.util.parsing.combinator._
 
+// TODO: remove this
 enum Tree {
 
   case Leaf(char: Char, cnt: Long)
