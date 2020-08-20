@@ -22,6 +22,11 @@ enum BinaryTree[+A] {
           b
         else 
           a
+  def isLeaf: Boolean = this
+    match
+      case l: Leaf[A] => true
+      case _ => false
+
 }
 
 object BinaryTree {

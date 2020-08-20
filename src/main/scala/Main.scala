@@ -9,29 +9,15 @@ import java.nio.file.Paths;
 object MyApp extends App {
 
   def run(args: List[String]) =
-    //compress.fold(x => ExitCode.failure, _ => ExitCode.success)
-    decompress.fold(x => ExitCode.failure, _ => ExitCode.success)
+    compress(Paths.get("sample.txt"), Paths.get("compressed.dat")).fold(x => ExitCode.failure, _ => ExitCode.success)
 
-  def compress = {
+  def compress(input: Path, output: Path) = 
+    Huffman.buildTreeFromFile(input)
+      .flatMap(tree => Huffman.compress(tree)(ZStream.fromFile(input)).run(ZSink.fromFile(output)))
 
-    val inputFile = Managed.make(Task(new FileInputStream("sample.txt")))(os => UIO(os.close()))
-    val outputFile = Managed.make(Task(new FileOutputStream("compressed.dat")))(os => UIO(os.close()))
-
-    val resources =
-      for
-        i <- inputFile
-        o <- outputFile
-      yield (i, o)
-
-    for
-      tree <- buildTreeFromFile(inputFile)
-      _    <- resources.use { case (inputStream, outputStream) => 
-                getContentStream(inputStream, tree).run(ZSink.fromOutputStream(outputStream)) }
-    yield ()
-  }
-
-  def decompress = getTreeStream(ZStream.fromFile(Paths.get("compressed.dat"))).use { 
-    case stream => stream.run(ZSink.fromFile(Paths.get("sample2.txt")))
-  }
+  //def decompress(input: Path, output: Path) = 
+  //  getTreeStream(ZStream.fromFile(input)).use { 
+  //    case stream => stream.run(ZSink.fromFile(output))
+  //  }
   
 }
