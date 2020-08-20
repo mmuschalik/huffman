@@ -13,7 +13,10 @@ object MyApp extends App {
 
   def compress(input: Path, output: Path) = 
     Huffman.buildTreeFromFile(input)
-      .flatMap(tree => Huffman.compress(tree)(ZStream.fromFile(input)).run(ZSink.fromFile(output)))
+      .flatMap(tree => fileStream(input, output, Huffman.compress(tree)))
+
+  def fileStream(input: Path, output: Path, f: ZStream[Blocking, Throwable, Byte] => ZStream[Blocking, Throwable, Byte]) =
+    f(ZStream.fromFile(input)).run(ZSink.fromFile(output))
 
   //def decompress(input: Path, output: Path) = 
   //  getTreeStream(ZStream.fromFile(input)).use { 
