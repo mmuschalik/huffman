@@ -18,9 +18,9 @@ object MyApp extends App {
   def fileStream(input: Path, output: Path, f: ZStream[Blocking, Throwable, Byte] => ZStream[Blocking, Throwable, Byte]) =
     f(ZStream.fromFile(input)).run(ZSink.fromFile(output))
 
-  //def decompress(input: Path, output: Path) = 
-  //  getTreeStream(ZStream.fromFile(input)).use { 
-  //    case stream => stream.run(ZSink.fromFile(output))
-  //  }
+  def decompress(input: Path, output: Path) = 
+    Huffman.decompress(ZStream.fromFile(input)).use {
+      case stream => stream.run(ZSink.fromFile(output))
+    }
   
 }

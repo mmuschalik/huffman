@@ -40,6 +40,15 @@ def decompress[R, E](tree: BinaryTree[Byte]): ZStream[R, E, Byte] => ZStream[R, 
         case BinaryTree.Leaf(b) => Stream(b)
         case _ => Stream())
 
+def decompress[R](stream: ZStream[R , Throwable, Byte]): ZManaged[R, Throwable, ZStream[R , Throwable, Byte]] =
+  for
+    headerSize <- stream.peel(ZSink.take(4))
+    header     <- headerSize._2.peel(ZSink.take(BigInt(headerSize._1.toArray).toInt))
+    treeEither  = BinaryTree.read(header._1.map(_.toChar).mkString)
+    treeStream  = treeEither.fold(f => Stream.fail(f), t => decompress(t)(header._2))
+  yield treeStream
+
+
 def bitStringToByte(str: Chunk[Char]): Byte = 
   Integer.parseInt(str.mkString.padTo(8, '0'), 2).toByte
 
