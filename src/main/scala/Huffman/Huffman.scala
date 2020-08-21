@@ -45,8 +45,8 @@ def decompress[R](stream: ZStream[R , Throwable, Byte]): ZManaged[R, Throwable, 
     headerSize <- stream.peel(ZSink.take(4))
     header     <- headerSize._2.peel(ZSink.take(BigInt(headerSize._1.toArray).toInt))
     treeEither  = BinaryTree.read(header._1.map(_.toChar).mkString)
-    treeStream  = treeEither.fold(f => Stream.fail(f), t => decompress(t)(header._2))
-  yield treeStream
+    outStream   = treeEither.fold(f => Stream.fail(f), t => decompress(t)(header._2))
+  yield outStream
 
 
 def bitStringToByte(str: Chunk[Char]): Byte = 
