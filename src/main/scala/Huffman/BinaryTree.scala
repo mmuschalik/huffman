@@ -41,7 +41,7 @@ object BinaryTree {
 
   def write(tree: BinaryTree[Byte]): String = tree
     match
-      case Leaf(c) => "'" + c.toString
+      case Leaf(c) => "'" + c.toChar.toString
       case Branch(zero, one) => "|" + write(zero) + write(one)
 
 }
